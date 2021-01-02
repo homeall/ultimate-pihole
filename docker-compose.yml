@@ -3,7 +3,7 @@ version: "3.3"
 services:
   caddy:
     container_name: caddy
-    image: homeall/caddy-reverse-proxy-cloudflare:arm64
+    image: homeall/caddy-reverse-proxy-cloudflare:arm64 #Check right $ARCH for your env. It could be amd64 or arm32v6
     restart: unless-stopped
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock" # needs socket to read events
