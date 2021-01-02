@@ -1,0 +1,83 @@
+version: "3.3"
+
+services:
+  caddy:
+    container_name: caddy
+    image: homeall/caddy-reverse-proxy-cloudflare:arm64
+    restart: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock" # needs socket to read events
+      - "./caddy-data:/data" # needs volume to back up certificates
+    ports:
+      - "80:80"
+      - "443:443"
+    labels: # Global options
+      caddy.email: your@email.com #Replace with your E-Mail address
+    networks:
+      backend:
+        ipv4_address: '172.31.0.69'
+      proxy-tier: {}
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    hostname: pihole
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: 'Europe/London'
+      WEBPASSWORD: 'admin'
+      DNS1: '172.31.0.53#54'
+      DNS2: 'no'
+      ServerIP: '172.31.0.100'
+      VIRTUAL_HOST: 'your.domain.net' #Replace with your domain
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+    depends_on:
+      - dhcphelper
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    labels:
+      caddy: pihole.ionut.vip
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      caddy.tls.protocols: "tls1.3"
+     caddy.tls.ca: "https://acme-staging-v02.api.letsencrypt.org/directory" #Comment after you finished your testing.
+      caddy.tls.dns: "cloudflare $SCOPED-API-Token" # Replace with your API Token 
+    networks:
+      backend:
+        ipv4_address: '172.31.0.100'
+      proxy-tier: {}
+
+  cloudflare:
+    restart: unless-stopped
+    container_name: cloudflare
+    image: homeall/cloudflared:latest
+    links:
+      - pihole
+    ports:
+      - "54:54/tcp"
+      - "54:54/udp"
+    networks:
+      backend:
+        ipv4_address: '172.31.0.53'
+      proxy-tier: {}
+
+  dhcphelper:
+    restart: unless-stopped
+    container_name: dhcphelper
+    network_mode: "host"
+    image: homeall/dhcphelper:latest
+    environment:
+      IP: '172.31.0.100'
+    cap_add:
+      - NET_ADMIN
+
+networks:
+  backend:
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+  proxy-tier:
+    external: true
