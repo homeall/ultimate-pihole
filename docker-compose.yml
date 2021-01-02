@@ -43,7 +43,7 @@ services:
       caddy: pihole.ionut.vip
       caddy.reverse_proxy: "{{upstreams 80}}"
       caddy.tls.protocols: "tls1.3"
-     caddy.tls.ca: "https://acme-staging-v02.api.letsencrypt.org/directory" #Comment after you finished your testing.
+      caddy.tls.ca: "https://acme-staging-v02.api.letsencrypt.org/directory" #Comment after you finished your testing.
       caddy.tls.dns: "cloudflare $SCOPED-API-Token" # Replace with your API Token 
     networks:
       backend:
