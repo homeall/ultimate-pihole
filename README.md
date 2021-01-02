@@ -6,7 +6,7 @@ The [docker-compose.yml](https://raw.githubusercontent.com/homeall/pihole-docker
 
 You will have [PiHole](https://pi-hole.net) plus [cloudflared](https://github.com/homeall/cloudflared) docker with DoH enabled and only **security upstreams**.
 
-Also it will have [Caddy](https://caddyserver.com) reverse proxy with https enabled and cert from [Let's Encrypt](https://letsencrypt.org).
+Also it will have [Caddy](https://caddyserver.com) [reverse proxy](https://hub.docker.com/repository/docker/homeall/caddy-reverse-proxy-cloudflare) with https enabled and cert from [Let's Encrypt](https://letsencrypt.org).
 
 In order to use DNS challenge as verification process needed for HTTPS cert, you will need to have **scoped API tocken** from cloudflare. Review this **[link](https://github.com/libdns/cloudflare#authenticating)**. 
 
