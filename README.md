@@ -6,6 +6,8 @@ You will have [PiHole](https://pi-hole.net) plus [cloudflared](https://github.co
 
 Also it will have [Caddy](https://caddyserver.com) reverse proxy with https enabled and cert from [Let's Encrypt](https://letsencrypt.org).
 
+In order to use DNS challenge as verification process needed for HTTPS cert, you will need to have **scoped API tocken** from cloudflare. Review this **[link](https://github.com/libdns/cloudflare#authenticating)**. 
+
 If you will need to get DHCP in docker container, you can use [dhcphelper](https://github.com/homeall/dhcphelper), a tool for DHCP Relay Broadcast message.
 
 ### Optional config
