@@ -1,6 +1,6 @@
 ## PiHole with cloudflared - DoH - caddy reverse proxy and dhcphelper
 
-The [docker-compose.yml](https://raw.githubusercontent.com/homeall/pihole-docker/main/docker-compose.yml) contains simple way to deploy to any enviroment.
+The [docker-compose.yml](https://raw.githubusercontent.com/homeall/pihole-docker/main/docker-compose.yml) contains simple way to deploy to any docker enviroment.
 
 You will have [PiHole](https://pi-hole.net) plus [cloudflared](https://github.com/homeall/cloudflared) docker with DoH enabled and only **security upstreams**.
 
